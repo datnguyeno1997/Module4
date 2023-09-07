@@ -4,6 +4,7 @@ let roomSelected = {};
 const formBody = document.getElementById('formBody');
 const tBody = document.getElementById('tBody');
 const ePagination = document.getElementById('pagination')
+const eSearch = document.getElementById('search')
 let categories;
 let types;
 let rooms = [];
@@ -235,7 +236,18 @@ const genderPagination = () => {
         }
     }
 }
+const onSearch = (e) => {
+    e.preventDefault()
+    pageable.search = eSearch.value;
+    pageable.page = 1;
+    renderTable();
+}
 
+const searchInput = document.querySelector('#search');
+
+searchInput.addEventListener('search', () => {
+    onSearch(event)
+});
 
 const addEventEditAndDelete = () => {
     const eEdits = tBody.querySelectorAll('.edit');

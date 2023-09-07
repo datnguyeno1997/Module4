@@ -66,7 +66,7 @@ public class RoomService {
 
     public Page<RoomListResponse> getRooms(Pageable pageable, String search){
         search = "%" + search + "%";
-        return roomRepository.findAll(pageable).map(e -> {
+        return roomRepository.searchEverything(search ,pageable).map(e -> {
             var result = AppUtil.mapper.map(e, RoomListResponse.class);
             result.setType(e.getType().getName());
             result.setCategories(e.getRoomCategories()
