@@ -33,13 +33,22 @@ roomForm.onsubmit = async (e) => {
     let message = "Created"
     if (roomSelected.id) {
         await editRoom(data);
-        message = "Edited"
+        webToast.Success({
+            status: 'Sửa thành công',
+            message: '',
+            delay: 2000,
+            align: 'topright'
+        });
     } else {
         await createRoom(data)
+        webToast.Success({
+            status: 'Thêm thành công',
+            message: '',
+            delay: 2000,
+            align: 'topright'
+        });
     }
-
-    alert(message);
-    renderTable();
+    await renderTable();
     $('#staticBackdrop').modal('hide');
 
 }
@@ -250,6 +259,9 @@ const onLoadSort = () => {
         let sort = 'price,desc'
         if(pageable.sortCustom?.includes('price') &&  pageable.sortCustom?.includes('desc')){
             sort = 'price,asc';
+            eHeaderPrice.innerHTML = 'Price <i class="bx bxs-up-arrow"></i>';
+        }else {
+            eHeaderPrice.innerHTML = 'Price <i class="bx bxs-down-arrow"></i>';
         }
         pageable.sortCustom = sort;
         renderTable();
@@ -305,19 +317,28 @@ async function createRoom(data) {
 }
 
 async function deleteRoom(id) {
-    const res = await fetch('/api/rooms/' + id, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(id)
+    const confirmBox = webToast.confirm("Are you sure to delete Room " + id + "?");
+    confirmBox.click(async function () {
+        const res = await fetch('/api/rooms/' + id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(id)
+        });
+        if (res.ok) {
+            // alert("Deleted");
+            webToast.Success({
+                status: 'Xóa thành công',
+                message: '',
+                delay: 2000,
+                align: 'topright'
+            });
+            await renderTable();
+        } else {
+            alert("Something went wrong!")
+        }
     });
-    if (res.ok) {
-        alert("Deleted");
-        await renderTable();
-    } else {
-        alert("Something went wrong!")
-    }
 }
 
 
