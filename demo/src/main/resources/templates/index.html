@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout.html :: header}">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<form th:object="${login}" method="post" action="/api/hello">
+  <input class="form-control" type="text" th:field="*{username}" />
+  <!--        <input type="text" name="username"  th:value="${login.username}" /> tương đương nhau-->
+  <input class="form-control" type="text" th:field="*{password}" />
+  <button>Submit</button>
+</form>
+<th:block th:insert="~{layout.html :: myScript}"></th:block>
+</body>
+</html>

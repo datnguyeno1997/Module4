@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout.html :: header}">
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+</head>
+<style>
+  .table td {
+    cursor: pointer;
+  }
+  .DONE{
+    background: aquamarine;
+    border: aquamarine;
+    font-weight: bold;
+  }
+
+  .IN_PROGRESS{
+    background: darkslateblue;
+    border: darkslateblue;
+    color: whitesmoke;
+    font-weight: bold;
+  }
+  .DISMISS{
+    background: darkgrey;
+    border: darkgrey;
+    font-weight: bold;
+  }
+</style>
+<body>
+
+<div class="container card" style="height: 100vh">
+  <div class="container row">
+    <h3>Management Task</h3>
+    <div class="row mb-3 mt-5">
+      <div class="col-2"><a href="/task/create" class="btn btn-primary">Create</a></div>
+    </div>
+
+    <table class="table table-striped table-hover">
+      <tr>
+        <td>
+          No.
+        </td>
+        <td>
+          Title.
+        </td>
+        <td>
+          Time
+        </td>
+        <td>
+          Status.
+        </td>
+        <td>
+          Type.
+        </td>
+        <td>
+          Action.
+        </td>
+      </tr>
+      <tr th:each="task, iter : ${tasks}">
+        <td th:text="${iter.index + 1}">
+        </td>
+        <td th:text="${task.title}" th:title="${task.description}">
+          Title.
+        </td>
+        <td th:text="${task.time}">
+          Time
+        </td>
+        <td>
+          <label>
+            <select th:class="${'form-control ' + task.status}"
+                    th:id="${task.id}"
+                    onchange="onChangeSelect(this) ">
+
+              <option th:each="item : ${statuses}"
+                      th:value="${item}"
+                      th:selected="${task.status == item}"
+                      th:text="${item.name}"></option>
+
+            </select>
+          </label>
+        </td>
+        <td th:text="${task.type}">
+          Type.
+        </td>
+        <td>
+          <a class="btn"><i class="fa-regular fa-pen-to-square text-success"></i></a>
+          <a class="btn"><i class="fa-regular fa-trash-can text-danger"></i></a>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+
+<th:block th:insert="~{layout.html :: myScript}"></th:block>
+<script>
+  function onChangeSelect(e){
+    window.location.href = '/task/'+e.id+'/'+ e.value;
+  }
+</script>
+</body>
+</html>

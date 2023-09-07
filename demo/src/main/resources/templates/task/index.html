@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout.html :: header}">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div class="container-fluid card">
+  <h3>Management Task</h3>
+  <a class="btn btn-primary" href="/task/create">Create</a>
+  <table>
+    <tr>
+      <td>
+        No.
+      </td>
+      <td>
+        Title.
+      </td>
+      <td>
+        Description.
+      </td>
+      <td>
+        Start.
+      </td>
+      <td>
+        End.
+      </td>
+      <td>
+        Status.
+      </td>
+      <td>
+        Type.
+      </td>
+      <td>
+        Action.
+      </td>
+    </tr>
+    <tr th:each="task, iter : ${tasks}">
+      <td th:text="${iter.index + 1}">
+
+      </td>
+      <td th:text="${task.title}">
+        Title.
+      </td>
+      <td th:text="${task.description}">
+        Description.
+      </td>
+      <td th:text="${task.start}">
+        Start.
+      </td >
+      <td th:text="${task.end}">
+        End.
+      </td>
+      <td th:text="${task.status}">
+        Status.
+      </td >
+      <td th:text="${task.type}">
+        Type.
+      </td>
+      <td>
+        <a class="btn btn-primary" href="/task/edit/{id}">Edit</a>
+        <a class="btn btn-danger" href="/task/delete/{id}">Delete</a>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+<th:block th:insert="~{layout.html :: myScript}"></th:block>
+</body>
+</html>
