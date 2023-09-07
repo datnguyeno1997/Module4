@@ -5,6 +5,7 @@ const formBody = document.getElementById('formBody');
 const tBody = document.getElementById('tBody');
 const ePagination = document.getElementById('pagination')
 const eSearch = document.getElementById('search')
+const eHeaderPrice = document.getElementById('header-price')
 let categories;
 let types;
 let rooms = [];
@@ -62,7 +63,8 @@ async function getTypesSelectOption() {
 window.onload = async () => {
     categories = await getCategoriesSelectOption();
     types = await getTypesSelectOption();
-    renderTable()
+    await renderTable();
+     onLoadSort();
 
     renderForm(formBody, getDataInput());
 }
@@ -241,6 +243,17 @@ const onSearch = (e) => {
     pageable.search = eSearch.value;
     pageable.page = 1;
     renderTable();
+}
+
+const onLoadSort = () => {
+    eHeaderPrice.onclick = () => {
+        let sort = 'price,desc'
+        if(pageable.sortCustom?.includes('price') &&  pageable.sortCustom?.includes('desc')){
+            sort = 'price,asc';
+        }
+        pageable.sortCustom = sort;
+        renderTable();
+    }
 }
 
 const searchInput = document.querySelector('#search');
